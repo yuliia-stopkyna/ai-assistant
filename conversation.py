@@ -11,7 +11,9 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 def get_ai_answer(conversation_id: str, is_new: bool, question: str) -> str:
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-    vectorstore = Chroma(conversation_id, embedding_function=embeddings, persist_directory="chromadb")
+    vectorstore = Chroma(
+        conversation_id, embedding_function=embeddings, persist_directory="chromadb"
+    )
     retriever = vectorstore.as_retriever()
     memory = VectorStoreRetrieverMemory(retriever=retriever)
 
@@ -30,14 +32,8 @@ def get_ai_answer(conversation_id: str, is_new: bool, question: str) -> str:
     Human: {input}
     AI:"""
 
-    prompt = PromptTemplate(
-        input_variables=["history", "input"], template=template
-    )
-    conversation = ConversationChain(
-        llm=llm,
-        prompt=prompt,
-        memory=memory
-    )
+    prompt = PromptTemplate(input_variables=["history", "input"], template=template)
+    conversation = ConversationChain(llm=llm, prompt=prompt, memory=memory)
     answer = conversation.predict(input=question)
 
     return answer

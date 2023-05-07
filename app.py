@@ -12,7 +12,7 @@ def question_page():
     return render_template("question_form.html")
 
 
-@app.post('/')
+@app.post("/")
 def get_answer():
     conversation_id = request.cookies.get("conversation_id", None)
     question = request.form["question"]
@@ -24,7 +24,9 @@ def get_answer():
     else:
         is_new = False
 
-    answer = get_ai_answer(conversation_id=conversation_id, is_new=is_new, question=question)
+    answer = get_ai_answer(
+        conversation_id=conversation_id, is_new=is_new, question=question
+    )
 
     response = make_response(render_template("answer.html", answer=answer))
 
@@ -34,5 +36,5 @@ def get_answer():
     return response
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
