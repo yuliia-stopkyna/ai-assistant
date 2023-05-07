@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <p class="h4 mb-3">Assistant response:</p>
+  <p>{{ answer }}</p>
+  <a href="{{ url_for('question_page') }}" class="btn btn-primary">Send another message</a>
+{% endblock %}
